@@ -38,7 +38,7 @@
                         <summary>{data?.user?.username}</summary>
                         <ul class="bg-base-100 rounded-t-none p-2">
                             {#if data?.user?.isAdmin}
-                                <li><a href="/dashboard">Dashboard</a></li>
+                                <li><a href="/dashboard/users">Dashboard</a></li>
                             {/if}
                             <li><a href="/settings">Settings</a></li>
                             <li>
