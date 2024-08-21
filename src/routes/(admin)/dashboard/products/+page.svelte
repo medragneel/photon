@@ -39,10 +39,18 @@
                         <td>{p.createdAt}</td>
                         <td>{p.updatedAt}</td>
                         <td>
-                            <form>
-                                <i class="bx bx-pencil"></i>
-                                <i class="bx bx-trash-alt text-[#f00]"></i>
-                            </form>
+                            <div class="flex justify-center gap-2">
+                                <a href="/dashboard/products/{p.prodId}/edit">
+                                    <i class="bx bx-pencil"></i>
+                                </a>
+                                <form method="POST">
+                                    <button type="submit">
+                                       <input type="hidden" name="prodId" value={p.prodId}>
+                                        <i class="bx bx-trash-alt text-[#f00]"
+                                        ></i>
+                                    </button>
+                                </form>
+                            </div>
                         </td>
                     </tr>
                 {/each}

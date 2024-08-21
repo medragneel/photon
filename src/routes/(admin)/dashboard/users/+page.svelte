@@ -21,19 +21,22 @@
             {#each users as user, idx}
                 <tr>
                     <th>{idx + 1}</th>
-                    <td>{user.id}</td>
-                    <td>{user.username}</td>
-                    <td>{user.email}</td>
-                    {#if user.isAdmin}
+                    <td>{user?.id}</td>
+                    <td>{user?.username}</td>
+                    <td>{user?.email}</td>
+                    {#if user?.isAdmin}
                         <td><i class="bx bx-user-check text-xl"></i></td>
                     {:else}
                         <td><i class="bx bx-user-x text-xl"></i></td>
                     {/if}
-                    <td>{user.createdAt}</td>
-                    <td>{user.updatedAt}</td>
+                    <td>{user?.createdAt}</td>
+                    <td>{user?.updatedAt}</td>
                     <td>
-                        <form>
-                            <i class="bx bx-trash-alt text-[#f00]"></i>
+                        <form method="POST">
+                            <input type="hidden" name="id" value={user.id} />
+                            <button type="submit">
+                                <i class="bx bx-trash-alt text-[#f00]"></i>
+                            </button>
                         </form>
                     </td>
                 </tr>

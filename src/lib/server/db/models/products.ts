@@ -16,5 +16,14 @@ const fetchProductById = async (id: string) => {
     return product[0]
 }
 
+const removeProductById = async (id: string) => {
+    await db.delete(products).where(eq(products.prodId, id))
 
-export { fetchAllProducts, getTotal,fetchProductById }
+}
+
+const createNewProduct = async (data: typeof products.$inferInsert) => {
+    await db.insert(products).values(data)
+
+}
+
+export { fetchAllProducts, getTotal, fetchProductById, removeProductById, createNewProduct }

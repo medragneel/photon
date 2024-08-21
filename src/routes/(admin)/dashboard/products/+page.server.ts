@@ -1,4 +1,4 @@
-import { fetchAllProducts, getTotal } from "$lib/server/db/models/products";
+import { fetchAllProducts, getTotal, removeProductById } from "$lib/server/db/models/products";
 import type { RequestEvent } from "../../dashboard/$types";
 
 export async function load(event: RequestEvent) {
@@ -25,3 +25,13 @@ export async function load(event: RequestEvent) {
     }
 }
 
+
+export const actions = {
+    default: async (event: RequestEvent) => {
+        const formData = await event.request.formData()
+        const pid = formData.get("prodId") ?? ""
+        console.log(pid)
+        await removeProductById(pid.toString())
+
+    }
+}

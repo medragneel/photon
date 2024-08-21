@@ -1,8 +1,8 @@
-import { fetchAllUsers } from "$lib/server/db/models/users";
+import { fetchAllUsers, removeUserById } from "$lib/server/db/models/users";
 import type { RequestEvent } from "../../dashboard/$types";
 
 
-export async function load(event: RequestEvent) {
+export async function load() {
 
 
     try {
@@ -15,4 +15,17 @@ export async function load(event: RequestEvent) {
         console.log(error)
     }
 
+}
+
+
+
+export const actions = {
+    default: async (event: RequestEvent) => {
+
+        const formData = await event.request.formData()
+        const userId = formData.get("id") ?? ""
+        console.log(userId)
+        await removeUserById(userId.toString())
+
+    }
 }

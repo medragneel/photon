@@ -17,4 +17,10 @@ const createNewUser = async (data: typeof user.$inferInsert) => {
     return db.insert(user).values(data);
 };
 
-export { getUserByEmail, createNewUser, fetchAllUsers };
+const removeUserById = async (id: string) => {
+    await db.delete(user).where(eq(user.id,id))
+
+
+}
+
+export { getUserByEmail, createNewUser, fetchAllUsers, removeUserById };
