@@ -6,6 +6,9 @@ export default {
     theme: {
         extend: {}
     },
+    daisyui: {
+        themes: ['light', 'dark','cupcake','dracula']
+    },
 
     plugins: [require("@tailwindcss/typography"), require("daisyui")]
 } as Config;

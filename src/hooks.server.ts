@@ -1,7 +1,11 @@
 import { lucia } from "$lib/server/auth/lucia";
+import { themes } from "$lib/themes";
 import type { Handle } from "@sveltejs/kit";
+import { sequence } from "@sveltejs/kit/hooks";
 
-export const handle: Handle = async ({ event, resolve }) => {
+
+const auth: Handle = async ({ event, resolve }) => {
+
     const sessionId = event.cookies.get(lucia.sessionCookieName);
     if (!sessionId) {
         event.locals.user = null;
@@ -27,4 +31,20 @@ export const handle: Handle = async ({ event, resolve }) => {
     event.locals.user = user;
     event.locals.session = session;
     return resolve(event);
-};
+
+}
+
+const theme: Handle = async ({ event, resolve }) => {
+    const theme = event.cookies.get('current-theme')
+    if (!theme || !themes.includes(theme)) {
+
+        return await resolve(event)
+    }
+    return await resolve(event, {
+        transformPageChunk: ({ html }) => {
+            return html.replace('data-theme=""', `data-theme="${theme}"`)
+        },
+    })
+
+}
+export const handle = sequence(auth, theme);
