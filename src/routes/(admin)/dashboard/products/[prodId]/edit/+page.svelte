@@ -1,14 +1,12 @@
 <script>
-    import { ProductCreationSchema } from "$lib";
+    import { ProductUpdateSchema } from "$lib";
     import { superForm } from "sveltekit-superforms";
-    import { defaults } from 'sveltekit-superforms'
-    import { zod } from "sveltekit-superforms/adapters";
+    import { zodClient } from "sveltekit-superforms/adapters";
 
-    const {
-        form: formData,
-        errors,
-        enhance,
-    } = superForm(defaults(zod(ProductCreationSchema)));
+    export let data;
+    const { form: formData, errors, enhance } = superForm(data.form,{
+    validators: zodClient(ProductUpdateSchema)
+    });
 </script>
 
 <div class="container mx-auto">
@@ -28,7 +26,7 @@
                 type="text"
                 class="grow"
                 name="name"
-                bind:value={formData.name}
+                bind:value={$formData.name}
                 aria-invalid={$errors.name ? "true" : undefined}
                 placeholder="product name"
             />
@@ -43,7 +41,7 @@
             <input
                 type="number"
                 class="grow"
-                bind:value={formData.price}
+                bind:value={$formData.price}
                 aria-invalid={$errors.price ? "true" : undefined}
                 name="price"
                 placeholder="product price"
@@ -60,7 +58,7 @@
                 type="text"
                 class="grow"
                 name="prodImage"
-                bind:value={formData.prodImage}
+                bind:value={$formData.prodImage}
                 aria-invalid={$errors.prodImage ? "true" : undefined}
                 placeholder="product image url"
             />
@@ -71,10 +69,9 @@
         <select
             class="select select-bordered w-full max-w-xs"
             name="category"
-            bind:value={formData.category}
+            bind:value={$formData.category}
             aria-invalid={$errors.category ? "true" : undefined}
         >
-            <option disabled selected>Choose a category</option>
             <option value="anime">Anime</option>
             <option value="movie">Movie</option>
             <option value="sport">Sport</option>
@@ -87,7 +84,7 @@
         <textarea
             class="textarea textarea-bordered textarea-lg w-full max-w-xs resize-none"
             name="description"
-            bind:value={formData.description}
+            bind:value={$formData.description}
             aria-invalid={$errors.description ? "true" : undefined}
             placeholder="Product description"
         ></textarea>

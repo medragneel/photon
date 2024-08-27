@@ -25,5 +25,10 @@ const createNewProduct = async (data: typeof products.$inferInsert) => {
     await db.insert(products).values(data)
 
 }
+const updateProduct = async (id: string, data: Partial<typeof products.$inferInsert>) => {
+    await db.update(products).set(data).where(eq(products.prodId, id))
 
-export { fetchAllProducts, getTotal, fetchProductById, removeProductById, createNewProduct }
+}
+
+
+export { fetchAllProducts, getTotal, fetchProductById, removeProductById, createNewProduct, updateProduct }

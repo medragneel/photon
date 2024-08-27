@@ -29,4 +29,13 @@ export const ProductCreationSchema = z.object({
     category: z.enum(["anime", "movie", "sport", "custom"]),
 });
 
+export const ProductUpdateSchema = z.object({
+    name: z.string().min(1),
+    price: z.number().int().default(2200),
+    description: z.string().min(1),
+    prodImage: z.string().url(),
+    category: z.enum(["anime", "movie", "sport", "custom"]),
+});
+
+
 
