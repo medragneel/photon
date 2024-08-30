@@ -1,5 +1,11 @@
 <script>
     export let data;
+    import { cart } from "$lib/client/cart";
+
+    function addToCart(item) {
+        cart.addItem(item);
+    }
+
     $: ({ products, total, limit, skip } = data);
     $: pageSize = limit;
     $: totalItems = total[0].count;
@@ -31,7 +37,10 @@
                     </div>
                     <div class="card-actions justify-between items-center p-4">
                         <h1 class="text-2xl font-bold">{p.price} DA</h1>
-                        <button class="btn btn-neutral text-xl">
+                        <button
+                            on:click={() => addToCart(p)}
+                            class="btn btn-neutral text-xl"
+                        >
                             <i class="bx bx-cart"></i>
                         </button>
                     </div>

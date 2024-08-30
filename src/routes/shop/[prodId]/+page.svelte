@@ -1,6 +1,11 @@
 <script>
     export let data;
     const { product } = data;
+    import { cart } from "$lib/client/cart";
+
+    function addToCart(item) {
+        cart.addItem(item);
+    }
 </script>
 
 <a href="/shop" class="btn m-4">
@@ -26,7 +31,7 @@
                 <div class="card-actions justify-between items-center p-4">
                     <h2 class="text-2xl font-bold">{product?.price}DA</h2>
 
-                    <button class="btn btn-wide btn-neutral">
+                    <button on:click={()=> addToCart(product)} class="btn btn-wide btn-neutral">
                         <i class="bx bx-cart"></i>
                         Add to cart
                     </button>
