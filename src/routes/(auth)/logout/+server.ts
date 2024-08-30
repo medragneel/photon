@@ -10,5 +10,5 @@ export const POST: RequestHandler = async (event) => {
         path: ".",
         ...sessionCookie.attributes,
     });
-    redirect(302, "/login");
+    throw redirect(302, "/login");
 };

@@ -18,9 +18,14 @@ const createNewUser = async (data: typeof user.$inferInsert) => {
 };
 
 const removeUserById = async (id: string) => {
-    await db.delete(user).where(eq(user.id,id))
+    await db.delete(user).where(eq(user.id, id))
 
 
 }
+const updateUserProfile = async (id: string, data: Partial<typeof user.$inferInsert>) => {
 
-export { getUserByEmail, createNewUser, fetchAllUsers, removeUserById };
+    return await db.update(user).set({ username: data.username, email: data.email }).where(eq(user.id, id))
+
+}
+
+export { getUserByEmail, createNewUser, fetchAllUsers, removeUserById, updateUserProfile };

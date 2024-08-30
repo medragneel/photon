@@ -1,6 +1,35 @@
 <script>
     import "../app.css";
     export let data;
+    let open = false;
+    const toggleCart = () => {
+        open = !open;
+        const drawer = document.getElementById("drawer-example");
+        if (open) {
+            drawer.style.transform = "translateX(0)";
+        } else {
+            drawer.style.transform = "translateX(100%)";
+        }
+    };
+
+    const calculateTotal = () => {
+        return cartItems.reduce(
+            (total, item) => total + item.price * item.quantity,
+            0,
+        );
+    };
+    const cartItems = [
+        {
+            name: "earpods",
+            price: 2200,
+            quantity: 1,
+        },
+        {
+            name: "phone",
+            price: 2200,
+            quantity: 1,
+        },
+    ];
 </script>
 
 <div class="navbar bg-base-100">
@@ -34,11 +63,107 @@
                 <li><a href="/">Home</a></li>
                 <li><a href="/shop">Shop</a></li>
                 <li>
+                    <button class="text-xl" on:click={() => toggleCart()}>
+                        <i class="bx bx-cart"></i>
+                    </button>
+
+                    {#if open}
+                        <div
+                            id="drawer-example"
+                            class="fixed top-0 left-0 z-40 h-screen p-4 overflow-y-auto bg-white shadow-2xl w-96 transition-transform duration-300 ease-in-out"
+                        >
+                            <button
+                                type="button"
+                                on:click={toggleCart}
+                                class="absolute top-4 right-4 text-gray-500 hover:text-gray-700"
+                            >
+                                <i class="bx bx-x text-2xl"></i>
+                                <span class="sr-only">Close menu</span>
+                            </button>
+
+                            <div class="cart-items flex flex-col gap-6 mt-12">
+                                <h1 class="text-2xl font-bold text-gray-800">
+                                    Your Cart
+                                </h1>
+                                <div class="items-card space-y-4">
+                                    {#each cartItems as item}
+                                        <div
+                                            class="cart-item bg-base-200 rounded-lg shadow-md p-4 flex items-center justify-between"
+                                        >
+                                            <div class="flex-1">
+                                                <h3
+                                                    class="text-lg font-semibold text-gray-800"
+                                                >
+                                                    {item.name}
+                                                </h3>
+                                                <p class="text-gray-600">
+                                                    ${item.price.toFixed(2)}
+                                                </p>
+                                            </div>
+                                            <div
+                                                class="flex items-center space-x-2"
+                                            >
+                                                <button
+                                                    class="w-8 h-8 flex items-center justify-center bg-gray-200 rounded-full hover:bg-gray-300 transition-colors"
+                                                >
+                                                    <i
+                                                        class="bx bx-minus text-gray-600"
+                                                    ></i>
+                                                </button>
+                                                <span
+                                                    class="text-lg font-medium w-8 text-center"
+                                                    >{item.quantity}</span
+                                                >
+                                                <button
+                                                    class="w-8 h-8 flex items-center justify-center bg-gray-200 rounded-full hover:bg-gray-300 transition-colors"
+                                                >
+                                                    <i
+                                                        class="bx bx-plus text-gray-600"
+                                                    ></i>
+                                                </button>
+                                            </div>
+                                            <button
+                                                class="ml-4 text-red-500 hover:text-red-700 transition-colors"
+                                            >
+                                                <i class="bx bx-trash text-xl"
+                                                ></i>
+                                            </button>
+                                        </div>
+                                    {/each}
+                                </div>
+                                <div class="mt-6 border-t pt-4">
+                                    <div
+                                        class="flex justify-between items-center mb-4"
+                                    >
+                                        <span
+                                            class="text-lg font-semibold text-gray-700"
+                                            >Total:</span
+                                        >
+                                        <span
+                                            class="text-xl font-bold text-gray-900"
+                                            >${calculateTotal().toFixed(
+                                                2,
+                                            )}</span
+                                        >
+                                    </div>
+                                    <button
+                                        class="w-full bg-blue-600 text-white py-3 rounded-lg font-semibold hover:bg-blue-700 transition-colors"
+                                    >
+                                        Proceed to Checkout
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    {/if}
+                </li>
+                <li>
                     <details>
                         <summary>{data?.user?.username}</summary>
                         <ul class="bg-base-100 rounded-t-none p-2">
                             {#if data?.user?.isAdmin}
-                                <li><a href="/dashboard/users">Dashboard</a></li>
+                                <li>
+                                    <a href="/dashboard/users">Dashboard</a>
+                                </li>
                             {/if}
                             <li><a href="/settings">Settings</a></li>
                             <li>
@@ -91,3 +216,9 @@
 <!--         </a> -->
 <!--     </nav> -->
 <!-- </footer> -->
+
+<style>
+    #drawer-example:hover {
+        background-color: rgba(255, 255, 255, 1); /* Fully opaque white */
+    }
+</style>

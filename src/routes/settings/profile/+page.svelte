@@ -20,13 +20,6 @@
 <div class="max-w-2xl mx-auto p-4">
     <div class="flex justify-between items-center mb-8">
         <h1 class="text-2xl font-bold">My Profile</h1>
-        <form method="POST">
-            <button
-                class="btn bg-red-500 hover:bg-red-600 text-white font-bold py-2 px-4 rounded"
-            >
-                Logout
-            </button>
-        </form>
     </div>
 
     <div class="shadow-md rounded-lg p-6 mb-8">
