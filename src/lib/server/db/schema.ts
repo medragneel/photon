@@ -63,6 +63,53 @@ export const products = pgTable("products", {
     ...timestamps,
 })
 
+export const orders = pgTable("orders", {
+    id: text("id").notNull().$defaultFn(() => generateId(20)).primaryKey(),
+    userId: text("user_id")
+        .notNull()
+        .references(() => user.id, { onDelete: "cascade" }),
+    total: integer("total").notNull(),
+    status: text("status", { enum: ["pending", "shipped", "delivered", "canceled"] }),
+    ...timestamps,
+
+});
+export const orderItems = pgTable("order_items", {
+    id: text("id").notNull().$defaultFn(() => generateId(20)).primaryKey(),
+    orderId: text("order_id")
+        .notNull()
+        .references(() => orders.id, { onDelete: "cascade" }),
+    prodId: text("prod_id")
+        .notNull()
+        .references(() => products.prodId, { onDelete: "cascade" }),
+    quantity: integer("quantity").notNull(),
+    price: integer("price").notNull(),
+    ...timestamps,
+});
+
+export const orderRelations = relations(orders, ({ one, many }) => ({
+    user: one(user, {
+        fields: [orders.userId],
+        references: [user.id],
+    }),
+    items: many(orderItems, {
+        fields: [orders.id],
+        references: [orderItems.orderId],
+    }),
+}));
+
+
+
+export const orderItemRelations = relations(orderItems, ({ one, many }) => ({
+    order: one(orders, {
+        fields: [orderItems.orderId],
+        references: [orders.id],
+    }),
+    product: one(products, {
+        fields: [orderItems.prodId],
+        references: [products.prodId],
+    }),
+}));
+
 export interface DatabaseUser {
     id: string;
     username: string;

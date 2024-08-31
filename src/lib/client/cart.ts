@@ -12,13 +12,22 @@ interface CartItem {
     updatedAt: number;
 }
 
-function createShoppingCart() {
+interface ShoppingCart {
+    subscribe: (run: (value: CartItem[]) => void) => () => void;
+    addItem: (item: CartItem) => void;
+    removeItem: (name: string) => void;
+    updateQuantity: (name: string, quantity: number) => void;
+    clearCart: () => void;
+    getCartCount: () => number;
+}
+
+function createShoppingCart(): ShoppingCart {
     const isBrowser = typeof window !== 'undefined';
     let initialCart: CartItem[] = [];
 
     if (isBrowser) {
         const storedCart = localStorage.getItem('shoppingCart');
-        initialCart = storedCart ? JSON.parse(storedCart) : [];
+        initialCart = storedCart ? JSON.parse(storedCart) as CartItem[] : [];
     }
 
     const { subscribe, set, update } = writable<CartItem[]>(initialCart);
@@ -32,8 +41,8 @@ function createShoppingCart() {
     return {
         subscribe,
         addItem: (item: CartItem) => {
-            update(items => {
-                const existingItem = items.find(i => i.name === item.name);
+            update((items) => {
+                const existingItem = items.find((i) => i.name === item.name);
                 if (existingItem) {
                     existingItem.quantity += 1;
                     return items;
@@ -44,19 +53,19 @@ function createShoppingCart() {
             });
         },
         removeItem: (name: string) => {
-            update(items => {
-                const updatedCart = items.filter(item => item.name !== name);
+            update((items) => {
+                const updatedCart = items.filter((item) => item.name !== name);
                 updateLocalStorage(updatedCart);
                 return updatedCart;
             });
         },
         updateQuantity: (name: string, quantity: number) => {
-            update(items => {
+            update((items) => {
                 const updatedCart = items
-                    .map(item =>
+                    .map((item) =>
                         item.name === name ? { ...item, quantity: Math.max(0, quantity) } : item
                     )
-                    .filter(item => item.quantity > 0);
+                    .filter((item) => item.quantity > 0);
                 updateLocalStorage(updatedCart);
                 return updatedCart;
             });
@@ -64,8 +73,16 @@ function createShoppingCart() {
         clearCart: () => {
             set([]);
             updateLocalStorage([]);
+        },
+        getCartCount: () => {
+            let cartCount = 0;
+            cart.subscribe((cart) => {
+                cartCount = cart.reduce((acc, item) => acc + item.quantity, 0);
+            });
+            return cartCount;
         }
+
     };
 }
 
-export const cart = createShoppingCart();
+export const cart: ShoppingCart = createShoppingCart();
