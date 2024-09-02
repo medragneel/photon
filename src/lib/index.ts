@@ -39,3 +39,78 @@ export const ProductUpdateSchema = z.object({
 
 
 
+const OrderStatus = z.enum(["pending", "shipped", "delivered", "canceled"]);
+
+export const OrderItemSchema = z.object({
+    id: z.string(),
+    prodId: z.string(),
+    quantity: z.number().int(),
+    price: z.number().int(),
+});
+
+export const OrderSchema = z.object({
+    // total: z.number().int(),
+    status: OrderStatus.default("pending"),
+    fullName: z.string().min(1, "Full name is required"),
+    wilaya: z.string().max(100, "Wilaya must be 100 characters or less").min(1, "wilaya is required"),
+    adress: z.string().min(1, "Address is required"),
+    phone: z.string().max(10, "Phone number must be 10 digits").min(1, "Phone number is required"),
+    // orderItems: z.array(OrderItemSchema),
+});
+
+
+
+export type Order = z.infer<typeof OrderSchema>;
+export type OrderItem = z.infer<typeof OrderItemSchema>;
+
+
+export const wilayas = [
+    "Adrar",
+    "Chlef",
+    "Laghouat",
+    "Oum El Bouaghi",
+    "Batna",
+    "Béjaïa",
+    "Biskra",
+    "Béchar",
+    "Blida",
+    "Bouira",
+    "Tamanrasset",
+    "Tébessa",
+    "Tlemcen",
+    "Tiaret",
+    "Tizi Ouzou",
+    "Alger",
+    "Djelfa",
+    "Jijel",
+    "Sétif",
+    "Saïda",
+    "Skikda",
+    "Sidi Bel Abbès",
+    "Annaba",
+    "Guelma",
+    "Constantine",
+    "Médéa",
+    "Mostaganem",
+    "M'Sila",
+    "Mascara",
+    "Ouargla",
+    "Oran",
+    "El Bayadh",
+    "Illizi",
+    "Bordj Bou Arréridj",
+    "Boumerdès",
+    "El Tarf",
+    "Tindouf",
+    "Tissemsilt",
+    "El Oued",
+    "Khenchela",
+    "Souk Ahras",
+    "Tipaza",
+    "Mila",
+    "Aïn Defla",
+    "Naâma",
+    "Aïn Témouchent",
+    "Ghardaïa",
+    "Relizane",
+];

@@ -1,26 +1,28 @@
 import { superValidate } from "sveltekit-superforms";
-import type { RequestEvent } from "../$types";
-import { z } from "zod"
 import { zod } from "sveltekit-superforms/adapters";
+import { fail } from '@sveltejs/kit';
+import { OrderSchema } from "$lib";
+import type { RequestEvent } from "../$types";
 
 
-const orderSchema = z.object({
-    items: z.array(
-        z.object({
-            prodId: z.string().min(1),
-            quantity: z.number().min(1),
-            price: z.number().min(1),
-        }),
-    ),
-    total: z.number().min(1),
-    status: z.enum(["pending", "shipped", "delivered", "canceled"]),
-});
+export const load = async (event: RequestEvent) => {
+    const form = await superValidate(event.request, zod(OrderSchema));
+    console.log(form)
+    return { form };
+};
 
+export const actions = {
+    default: async (event: RequestEvent) => {
+        const form = await superValidate(event.request, zod(OrderSchema));
+        console.log('POST', form);
 
-export async function load(event: RequestEvent) {
-    const form = superValidate(event.request, zod(orderSchema))
+        if (!form.valid) {
+            return fail(400, { form });
+        }
 
-    return {
-        form
+        // TODO: Add your form submission logic here
+        // This is where you would typically save the order to your database
+
+        return { form };
     }
-}
+};

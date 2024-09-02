@@ -1,161 +1,166 @@
 <script lang="ts">
-    import { superForm } from "sveltekit-superforms";
-    import { z } from "zod";
     import { cart } from "$lib/client/cart";
+    import CartItem from "$lib/components/cartItem.svelte";
+    import { superForm } from "sveltekit-superforms";
+    import { wilayas } from "$lib";
+    import Select from "svelte-select";
 
-    const orderSchema = z.object({
-        shippingAddress: z.object({
-            name: z.string().min(1),
-            address: z.string().min(1),
-            city: z.string().min(1),
-            state: z.string().min(1),
-            zip: z.string().min(1),
-        }),
-    });
+    export let data;
 
-    const { form, errors, enhance } = superForm(
-        {
-            shippingAddress: {
-                name: "",
-                address: "",
-                city: "",
-                state: "",
-                zip: "",
-            },
-        },
-        {
-            dataType: "json",
-            validators: { schema: orderSchema },
-        },
+    const { form: formData, errors, enhance } = superForm(data.form);
+
+    $: cartItems = $cart;
+    $: total = $cart.reduce(
+        (total, item) => total + item.price * item.quantity,
+        0,
     );
+
 </script>
 
-<div class="container mx-auto py-8">
-    <div class="bg-base-200 p-8 rounded-lg">
-        <h2 class="text-2xl font-bold mb-4">Checkout</h2>
+<div class="container mx-auto py-12">
+    <h1 class="text-3xl font-bold text-center mb-8">Checkout</h1>
 
-        <div>
-            <h3 class="text-lg font-bold mb-4">Shipping Information</h3>
-            <form method="POST" use:enhance>
-                <div class="mb-4">
-                    <label class="label" for="name">
-                        <span class="label-text">Name</span>
+    <form method="POST" class="max-w-4xl mx-auto" use:enhance>
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+            <div class="form">
+                <div class="form-control w-full mb-4">
+                    <label class="label font-semibold" for="fullName">
+                        <span class="label-text">Full Name</span>
                     </label>
-                    <input
-                        type="text"
-                        id="name"
-                        class="input input-bordered w-full"
-                        data-invalid={$errors.shippingAddress?.name}
-                        bind:value={$form.shippingAddress.name}
-                    />
-                    {#if $errors.shippingAddress?.name}
-                        <p class="text-error">{$errors.shippingAddress.name}</p>
+                    <div class="input-group">
+                        <span
+                            class="w-10 bg-gray-200 flex items-center justify-center"
+                        >
+                        </span>
+                        <input
+                            type="text"
+                            id="fullName"
+                            name="fullName"
+                            placeholder="Enter your full name"
+                            class="input input-bordered w-full"
+                            bind:value={$formData.fullName}
+                            aria-invalid={$errors.fullName ? "true" : undefined}
+                        />
+                    </div>
+                    {#if $errors.fullName}
+                        <label class="label" for="fullName">
+                            <span class="label-text-alt text-error"
+                                >{$errors.fullName}</span
+                            >
+                        </label>
                     {/if}
                 </div>
 
-                <div class="mb-4">
-                    <label class="label" for="address">
+                <div class="form-control w-full mb-4">
+                    <label class="label font-semibold" for="adress">
                         <span class="label-text">Address</span>
                     </label>
-                    <input
-                        type="text"
-                        id="address"
-                        class="input input-bordered w-full"
-                        data-invalid={$errors.shippingAddress?.address}
-                        bind:value={$form.shippingAddress.address}
-                    />
-                    {#if $errors.shippingAddress?.address}
-                        <p class="text-error">
-                            {$errors.shippingAddress.address}
-                        </p>
+                    <div class="input-group">
+                        <span
+                            class="w-10 bg-gray-200 flex items-center justify-center"
+                        >
+                        </span>
+                        <input
+                            type="text"
+                            id="adress"
+                            name="adress"
+                            placeholder="Enter your address"
+                            class="input input-bordered w-full"
+                            bind:value={$formData.adress}
+                            aria-invalid={$errors.adress ? "true" : undefined}
+                        />
+                    </div>
+                    {#if $errors.adress}
+                        <label class="label" for="adress">
+                            <span class="label-text-alt text-error"
+                                >{$errors.adress}</span
+                            >
+                        </label>
                     {/if}
                 </div>
 
-                <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
-                    <div>
-                        <label class="label" for="city">
-                            <span class="label-text">City</span>
-                        </label>
-                        <input
-                            type="text"
-                            id="city"
-                            class="input input-bordered w-full"
-                            data-invalid={$errors.shippingAddress?.city}
-                            bind:value={$form.shippingAddress.city}
+                <div class="form-control w-full mb-4">
+                    <label class="label font-semibold" for="wilaya">
+                        <span class="label-text">Wilaya</span>
+                    </label>
+                    <div class="input-group">
+                        <span
+                            class="w-10 bg-gray-200 flex items-center justify-center"
+                        >
+                        </span>
+                        <Select
+                            items={wilayas}
+                            bind:value={$formData.wilaya}
+                            name="wilaya"
+                            placeholder="Select your wilaya"
+                            class="select select-bordered w-full"
                         />
-                        {#if $errors.shippingAddress?.city}
-                            <p class="text-error">
-                                {$errors.shippingAddress.city}
-                            </p>
-                        {/if}
                     </div>
-
-                    <div>
-                        <label class="label" for="state">
-                            <span class="label-text">State</span>
+                    {#if $errors.wilaya}
+                        <label class="label" for="wilaya">
+                            <span class="label-text-alt text-error"
+                                >{$errors.wilaya}</span
+                            >
                         </label>
+                    {/if}
+                </div>
+
+                <div class="form-control w-full mb-4">
+                    <label class="label font-semibold" for="phone">
+                        <span class="label-text">Phone Number</span>
+                    </label>
+                    <div class="input-group">
+                        <span
+                            class="w-10 bg-gray-200 flex items-center justify-center"
+                        >
+                        </span>
                         <input
                             type="text"
-                            id="state"
+                            id="phone"
+                            name="phone"
+                            placeholder="Enter your phone number"
                             class="input input-bordered w-full"
-                            data-invalid={$errors.shippingAddress?.state}
-                            bind:value={$form.shippingAddress.state}
+                            bind:value={$formData.phone}
+                            aria-invalid={$errors.phone ? "true" : undefined}
                         />
-                        {#if $errors.shippingAddress?.state}
-                            <p class="text-error">
-                                {$errors.shippingAddress.state}
-                            </p>
-                        {/if}
                     </div>
-
-                    <div>
-                        <label class="label" for="zip">
-                            <span class="label-text">Zip</span>
+                    {#if $errors.phone}
+                        <label class="label" for="phone">
+                            <span class="label-text-alt text-error"
+                                >{$errors.phone}</span
+                            >
                         </label>
-                        <input
-                            type="text"
-                            id="zip"
-                            class="input input-bordered w-full"
-                            data-invalid={$errors.shippingAddress?.zip}
-                            bind:value={$form.shippingAddress.zip}
-                        />
-                        {#if $errors.shippingAddress?.zip}
-                            <p class="text-error">
-                                {$errors.shippingAddress.zip}
-                            </p>
+                    {/if}
+                </div>
+
+                <button type="submit" class="btn btn-primary w-full mt-6"
+                    >Place Order</button
+                >
+            </div>
+
+            <div class="cart">
+                <div class="card bg-base-100 shadow-lg">
+                    <div class="card-body">
+                        <h2 class="card-title mb-4">Your Cart</h2>
+                        {#if cartItems.length > 0}
+                            <div class="space-y-4">
+                                {#each cartItems as item}
+                                    <CartItem {item} />
+                                {/each}
+                            </div>
+                        {:else}
+                            <p class="text-gray-500">Your cart is empty.</p>
                         {/if}
+                        <div class="divider mt-6"></div>
+                        <div class="flex justify-between items-center">
+                            <span class="text-lg font-semibold">Total:</span>
+                            <span class="text-xl font-bold"
+                                >{total.toFixed(2)} DA</span
+                            >
+                        </div>
                     </div>
                 </div>
-            </form>
+            </div>
         </div>
-
-        <div class="mt-8">
-            <h3 class="text-lg font-bold mb-4">Order Summary</h3>
-            <ul class="menu bg-base-100 rounded-box">
-                {#each $cart as item}
-                    <li class="flex items-center justify-between">
-                        <span>{item.name}</span>
-                        <span>{item.price.toFixed(2)} DA x {item.quantity}</span
-                        >
-                    </li>
-                {/each}
-                <li class="flex items-center justify-between font-bold">
-                    <span>Total</span>
-                    <span>
-                        {$cart
-                            .reduce(
-                                (total, item) =>
-                                    total + item.price * item.quantity,
-                                0,
-                            )
-                            .toFixed(2)} DA
-                    </span>
-                </li>
-            </ul>
-        </div>
-
-        <button type="submit" class="btn btn-primary w-full mt-8">
-            Place Order
-        </button>
-    </div>
+    </form>
 </div>

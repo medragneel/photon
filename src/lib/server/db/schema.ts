@@ -70,6 +70,10 @@ export const orders = pgTable("orders", {
         .references(() => user.id, { onDelete: "cascade" }),
     total: integer("total").notNull(),
     status: text("status", { enum: ["pending", "shipped", "delivered", "canceled"] }),
+    fullName: text('fullName'),
+    wilaya: varchar('wilaya', { length: 100 }).notNull(),
+    adress: text('adress').notNull(),
+    phone: text('phone').notNull(),
     ...timestamps,
 
 });

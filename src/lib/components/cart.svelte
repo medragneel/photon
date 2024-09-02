@@ -2,23 +2,13 @@
     import { cart } from "$lib/client/cart";
     import CartItem from "$lib/components/cartItem.svelte";
 
-    let open = false;
     export let toggleCart;
 
-    let cartItems = [];
-    let total = 0;
-
-    const calculateTotal = () => {
-        return $cart.reduce(
-            (total, item) => total + item.price * item.quantity,
-            0,
-        );
-    };
-
-    cart.subscribe((items) => {
-        cartItems = items;
-        total = calculateTotal();
-    });
+    $: cartItems = $cart;
+    $: total = $cart.reduce(
+        (total, item) => total + item.price * item.quantity,
+        0
+    );
 </script>
 
 <div
@@ -28,7 +18,6 @@
         <i class="bx bx-x text-2xl"></i>
         <span class="sr-only">Close menu</span>
     </button>
-
     <div class="cart-items flex flex-col gap-6 mt-12">
         <h1 class="text-2xl font-bold">Your Cart</h1>
         {#if cartItems.length > 0}
@@ -47,7 +36,6 @@
                     {total.toFixed(2)} DA
                 </span>
             </div>
-
             <div class="flex flex-col gap-4">
                 <a
                     class="w-full btn py-3 btn-wide rounded-lg font-semibold"

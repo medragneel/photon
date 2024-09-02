@@ -10,7 +10,7 @@
 		"check:watch": "svelte-kit sync && svelte-check --tsconfig ./tsconfig.json --watch",
 		"studio": "pnpm exec drizzle-kit studio",
 		"db": "sudo docker-compose -f ./docker-compose.yaml up",
-        "db:seed": "pnpm exec tsx ./src/lib/server/db/seed.ts"
+		"db:seed": "pnpm exec tsx ./src/lib/server/db/seed.ts"
 	},
 	"devDependencies": {
 		"@faker-js/faker": "^8.4.1",
@@ -41,6 +41,7 @@
 		"oslo": "^1.2.1",
 		"pg": "^8.12.0",
 		"postgres": "^3.4.4",
+		"svelte-select": "^5.8.3",
 		"zod": "^3.23.8"
 	}
 }

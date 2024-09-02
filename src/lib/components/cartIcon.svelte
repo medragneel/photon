@@ -3,15 +3,12 @@
     import Cart from "$lib/components/cart.svelte";
 
     let open = false;
-    let cartCount = 0;
 
     const toggleCart = () => {
         open = !open;
     };
 
-    cart.subscribe((items) => {
-        cartCount = cart.getCartCount();
-    });
+    $: cartCount = $cart.reduce((total, item) => total + item.quantity, 0);
 </script>
 
 <button class="text-xl" on:click={toggleCart}>
