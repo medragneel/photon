@@ -1,21 +1,42 @@
 <script lang="ts">
     import { cart } from "$lib/client/cart";
     import CartItem from "$lib/components/cartItem.svelte";
-    import { superForm } from "sveltekit-superforms";
+    import { superForm } from "sveltekit-superforms/client";
     import { wilayas } from "$lib";
     import Select from "svelte-select";
 
     export let data;
-
-    const { form: formData, errors, enhance } = superForm(data.form);
-
     $: cartItems = $cart;
-    $: total = $cart.reduce(
+    const total = $cart.reduce(
         (total, item) => total + item.price * item.quantity,
         0,
     );
 
+    const { form, errors, enhance, submitting } = superForm(data.form, {
+        dataType: "json",
+        onError: (errors) => {
+            console.error("Form submission errors:", errors);
+        },
+        onResult: ({ result }) => {
+            console.log("Form submission result:", result);
+        },
+    });
+
+    // Update the form data when the cart changes
+    $: {
+        const orderItems = $cart.map((item) => ({
+            prodId: item.prodId,
+            quantity: item.quantity,
+            price: item.price,
+        }));
+        $form = { ...($form || {}), orderItems, total };
+    }
+
+
 </script>
+<!-- <SuperDebug data={$form}/> -->
+
+{#if cartItems.length > 0}
 
 <div class="container mx-auto py-12">
     <h1 class="text-3xl font-bold text-center mb-8">Checkout</h1>
@@ -38,7 +59,7 @@
                             name="fullName"
                             placeholder="Enter your full name"
                             class="input input-bordered w-full"
-                            bind:value={$formData.fullName}
+                            bind:value={$form.fullName}
                             aria-invalid={$errors.fullName ? "true" : undefined}
                         />
                     </div>
@@ -66,7 +87,7 @@
                             name="adress"
                             placeholder="Enter your address"
                             class="input input-bordered w-full"
-                            bind:value={$formData.adress}
+                            bind:value={$form.adress}
                             aria-invalid={$errors.adress ? "true" : undefined}
                         />
                     </div>
@@ -90,7 +111,7 @@
                         </span>
                         <Select
                             items={wilayas}
-                            bind:value={$formData.wilaya}
+                            bind:value={$form.wilaya}
                             name="wilaya"
                             placeholder="Select your wilaya"
                             class="select select-bordered w-full"
@@ -120,7 +141,7 @@
                             name="phone"
                             placeholder="Enter your phone number"
                             class="input input-bordered w-full"
-                            bind:value={$formData.phone}
+                            bind:value={$form.phone}
                             aria-invalid={$errors.phone ? "true" : undefined}
                         />
                     </div>
@@ -133,9 +154,13 @@
                     {/if}
                 </div>
 
-                <button type="submit" class="btn btn-primary w-full mt-6"
-                    >Place Order</button
+                <button
+                    type="submit"
+                    class="btn btn-primary w-full mt-6"
+                    disabled={$submitting}
                 >
+                    {$submitting ? "Submitting..." : "Place Order"}
+                </button>
             </div>
 
             <div class="cart">
@@ -164,3 +189,10 @@
         </div>
     </form>
 </div>
+{:else}
+<div class="h-screen flex flex-col items-center justify-center">
+<span class="loading loading-spinner text-neutral w-10"></span>
+<p class="text-xl text-center mt-6">...Loading</p>
+</div>
+
+{/if}

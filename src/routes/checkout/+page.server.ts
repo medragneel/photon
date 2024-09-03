@@ -7,7 +7,6 @@ import type { RequestEvent } from "../$types";
 
 export const load = async (event: RequestEvent) => {
     const form = await superValidate(event.request, zod(OrderSchema));
-    console.log(form)
     return { form };
 };
 
@@ -15,6 +14,7 @@ export const actions = {
     default: async (event: RequestEvent) => {
         const form = await superValidate(event.request, zod(OrderSchema));
         console.log('POST', form);
+        console.log('POST', form.data.orderItems);
 
         if (!form.valid) {
             return fail(400, { form });

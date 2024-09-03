@@ -40,22 +40,25 @@ export const ProductUpdateSchema = z.object({
 
 
 const OrderStatus = z.enum(["pending", "shipped", "delivered", "canceled"]);
+const wilayaSchema = z.object({
+    value: z.string(),  // value should be a string
+    label: z.string(),  // label should be a string
+});
 
 export const OrderItemSchema = z.object({
-    id: z.string(),
     prodId: z.string(),
     quantity: z.number().int(),
     price: z.number().int(),
 });
 
 export const OrderSchema = z.object({
-    // total: z.number().int(),
+    total: z.number().int(),
     status: OrderStatus.default("pending"),
     fullName: z.string().min(1, "Full name is required"),
-    wilaya: z.string().max(100, "Wilaya must be 100 characters or less").min(1, "wilaya is required"),
+    wilaya: wilayaSchema,
     adress: z.string().min(1, "Address is required"),
     phone: z.string().max(10, "Phone number must be 10 digits").min(1, "Phone number is required"),
-    // orderItems: z.array(OrderItemSchema),
+    orderItems: z.array(OrderItemSchema),
 });
 
 
