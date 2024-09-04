@@ -77,6 +77,8 @@ export const orders = pgTable("orders", {
     ...timestamps,
 
 });
+
+
 export const orderItems = pgTable("order_items", {
     id: text("id").notNull().$defaultFn(() => generateId(20)).primaryKey(),
     orderId: text("order_id")
@@ -92,18 +94,13 @@ export const orderItems = pgTable("order_items", {
 
 export const orderRelations = relations(orders, ({ one, many }) => ({
     user: one(user, {
-        fields: [orders.userId],
+        fields: [orders.userId], // Ensure this matches the orders table definition
         references: [user.id],
     }),
-    items: many(orderItems, {
-        fields: [orders.id],
-        references: [orderItems.orderId],
-    }),
+    orderItems: many(orderItems),
 }));
 
-
-
-export const orderItemRelations = relations(orderItems, ({ one, many }) => ({
+export const orderItemRelations = relations(orderItems, ({ one }) => ({
     order: one(orders, {
         fields: [orderItems.orderId],
         references: [orders.id],
@@ -113,6 +110,7 @@ export const orderItemRelations = relations(orderItems, ({ one, many }) => ({
         references: [products.prodId],
     }),
 }));
+
 
 export interface DatabaseUser {
     id: string;
