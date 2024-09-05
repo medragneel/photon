@@ -1,5 +1,8 @@
 <script>
+    import Pagination from "$lib/components/Pagination.svelte";
+
     export let data;
+    const link = "products"
     $: ({ products, total, limit, skip } = data);
     $: pageSize = limit;
     $: totalItems = total[0].count;
@@ -45,7 +48,11 @@
                                 </a>
                                 <form method="POST">
                                     <button type="submit">
-                                       <input type="hidden" name="prodId" value={p.prodId}>
+                                        <input
+                                            type="hidden"
+                                            name="prodId"
+                                            value={p.prodId}
+                                        />
                                         <i class="bx bx-trash-alt text-[#f00]"
                                         ></i>
                                     </button>
@@ -57,22 +64,7 @@
             </tbody>
         </table>
     </div>
-    <center>
-        <div class="join p-4 mt-4">
-            {#each Array(totalPages).fill(0) as _, idx}
-                <a
-                    href="/dashboard/products?limit={pageSize}&skip={pageSize *
-                        idx}"
-                    class="join-item btn {currentPage === idx
-                        ? 'btn-active'
-                        : ''}"
-                    class:btn-disabled={idx * pageSize >= totalItems}
-                >
-                    {idx + 1}
-                </a>
-            {/each}
-        </div>
-    </center>
+    <Pagination {link} {totalPages} {currentPage} {pageSize} {totalItems} />
 {:else}
     <p class="text-xl font-bold text-center p-6">...no products found</p>
 {/if}

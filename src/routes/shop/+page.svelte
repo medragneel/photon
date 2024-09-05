@@ -66,3 +66,4 @@
 {:else}
     <p class="text-xl font-bold text-center p-6">...no products found</p>
 {/if}
+

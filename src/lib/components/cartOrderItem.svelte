@@ -1,7 +1,6 @@
 <script lang="ts">
     export let item;
     export let quantity;
-    $: console.log(item);
 </script>
 
 <div

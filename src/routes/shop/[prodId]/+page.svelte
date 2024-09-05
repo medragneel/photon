@@ -8,30 +8,42 @@
     }
 </script>
 
-<a href="/shop" class="btn m-4">
+<a href="/shop" class="btn btn-outline m-4">
     <i class="bx bx-left-arrow-alt"></i>
     Go back
 </a>
 
 {#if !product}
-    <p class="text-xl font-bold text-center p-6">...Error fetching product</p>
+    <p class="text-xl font-bold text-center p-6 text-error">
+        ...Error fetching product
+    </p>
 {:else}
-    <div class="container mx-auto">
-        <div class="flex justfy-center items-center gap-6">
-            <img src={product?.prodImage} alt={product?.name} />
-            <div class="flex flex-col gap-4">
-                <h1 class="text-xl font-bold text-start">
-                    {product?.name}
-                </h1>
-                <p class="text-start">{product?.description}</p>
-                <br />
+    <div class="container mx-auto p-6">
+        <div
+            class="flex flex-col md:flex-row justify-center items-center gap-8"
+        >
+            <!-- Product Image -->
+            <img
+                src={product?.prodImage}
+                alt={product?.name}
+                class="rounded-lg shadow-lg w-full md:w-1/2 object-cover"
+            />
+
+            <!-- Product Details -->
+            <div class="flex flex-col gap-4 w-full md:w-1/2">
+                <h1 class="text-3xl font-bold text-left">{product?.name}</h1>
+                <p class="text-left">{product?.description}</p>
                 <p class="badge badge-outline">{product?.category}</p>
-                <br />
 
-                <div class="card-actions justify-between items-center p-4">
-                    <h2 class="text-2xl font-bold">{product?.price}DA</h2>
-
-                    <button on:click={()=> addToCart(product)} class="btn btn-wide btn-neutral">
+                <!-- Price and Add to Cart -->
+                <div class="flex justify-between items-center mt-6">
+                    <h2 class="text-2xl font-bold text-primary">
+                        {product?.price} DA
+                    </h2>
+                    <button
+                        on:click={() => addToCart(product)}
+                        class="btn btn-primary flex items-center gap-2"
+                    >
                         <i class="bx bx-cart"></i>
                         Add to cart
                     </button>
@@ -40,3 +52,16 @@
         </div>
     </div>
 {/if}
+
+<style>
+    img {
+        width: 100%;
+        max-width: 600px;
+    }
+
+    @media (max-width: 768px) {
+        img {
+            max-width: 100%;
+        }
+    }
+</style>

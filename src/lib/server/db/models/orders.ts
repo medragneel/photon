@@ -1,4 +1,4 @@
-import { count } from "drizzle-orm"
+import { count, eq } from "drizzle-orm"
 import { db } from "../client"
 import { orderItems, orders } from "../schema"
 
@@ -42,5 +42,17 @@ const getTotal = async () => {
 
 }
 
+const removeOrderById = async (id: string) => {
+    await db.delete(orders).where(eq(orders.id, id))
 
-export { createOrder, createOrderItem, fetchAllOrders, getTotal }
+}
+
+
+const updateStatus = async (id: string, status: "pending" | "shipped" | "delivered" | "canceled") => {
+    const result = await db.update(orders)
+        .set({ status: status })
+        .where(eq(orders.id, id))
+        .returning();
+    console.log('Update result:', result);
+}
+export { createOrder, createOrderItem, fetchAllOrders, getTotal, removeOrderById, updateStatus }

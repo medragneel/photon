@@ -1,22 +1,42 @@
 <script lang="ts">
     import { superForm } from "sveltekit-superforms/client";
+        import { toast, Toaster } from "svelte-french-toast";
+
 
     export let data;
+    let isEditing = false;
 
     const {
         form: formData,
         errors,
         enhance,
         submitting,
-    } = superForm(data.form);
+    } = superForm(data.form,{
+            onResult: ({ result }) => {
+            console.log("Form submission result:", result);
+            if (result.type === "redirect") {
+                toast.success("Profile modified successfully!", {
+                    position: "top-center",
+                    duration: 5000,
+                })
+                isEditing = false
+            } else {
+                toast.error("there's a problem", {
+                    position: "top-center",
+                    duration: 5000,
+                });
+            }
+        },
 
-    let isEditing = false;
+    });
+
 
     function toggleEdit() {
         isEditing = !isEditing;
     }
 </script>
 
+<Toaster />
 <div class="max-w-2xl mx-auto p-4">
     <div class="flex justify-between items-center mb-8">
         <h1 class="text-2xl font-bold">My Profile</h1>

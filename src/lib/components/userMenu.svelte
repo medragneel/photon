@@ -3,8 +3,16 @@
 </script>
 
 <details>
-    <summary>{user?.username}</summary>
-    <ul class="bg-base-100 rounded-t-none p-2">
+    <summary>
+        <div class="avatar online placeholder">
+            <div class="bg-neutral text-neutral-content w-8 rounded-full">
+                <span class="text-xs"
+                    >{user?.username.charAt(0).toUpperCase()}</span
+                >
+            </div>
+        </div>
+    </summary>
+    <ul class="bg-base-100 rounded-t-none p-2 right-4">
         {#if user?.isAdmin}
             <li>
                 <a href="/dashboard/users">Dashboard</a>
@@ -13,7 +21,7 @@
         <li><a href="/settings/profile">Settings</a></li>
         <li>
             <form action="/logout" method="POST">
-                <button type="submit" class="text-[#f00]">
+                <button type="submit" class="text-error">
                     <i class="bx bx-log-in"></i>
                     Logout
                 </button>

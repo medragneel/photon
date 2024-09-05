@@ -6,6 +6,8 @@ import { z } from "zod"
 import type { RequestEvent } from "../$types";
 import { createOrder, createOrderItem } from "$lib/server/db/models/orders";
 import { generateId } from "lucia";
+import toast from "svelte-french-toast";
+
 
 export const load = async (event: RequestEvent) => {
     if (!event.locals.user) return redirect(302, "/login");
@@ -51,6 +53,7 @@ export const actions = {
             return { success: true, form };
         } catch (error) {
             console.error("Error creating order:", error);
+
             return fail(500, { message: "Internal Server Error" });
         }
     },
