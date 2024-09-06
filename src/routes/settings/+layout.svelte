@@ -2,12 +2,16 @@
     import { page } from "$app/stores";
     const navigation = [
         {
+            title: "Theme",
+            href: "/settings/theme",
+        },
+        {
             title: "profile",
             href: "/settings/profile",
         },
         {
-            title: "Theme",
-            href: "/settings/theme",
+            title: "Your Orders",
+            href: "/settings/user/orders",
         },
     ];
 </script>

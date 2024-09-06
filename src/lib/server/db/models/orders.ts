@@ -55,4 +55,24 @@ const updateStatus = async (id: string, status: "pending" | "shipped" | "deliver
         .returning();
     console.log('Update result:', result);
 }
-export { createOrder, createOrderItem, fetchAllOrders, getTotal, removeOrderById, updateStatus }
+
+const fetchUserOrders = async (userId: string) => {
+    try {
+        const userorders = await db.query.orders.findMany({
+            where: eq(orders.userId, userId), // Add this line to filter by user ID
+            with: {
+                orderItems: {
+                    with: {
+                        product: true,
+                    }
+                }
+            },
+        });
+
+        return userorders;
+    } catch (error) {
+        console.error(error);
+        throw error;
+    }
+};
+export { createOrder, createOrderItem, fetchAllOrders, getTotal, removeOrderById, updateStatus, fetchUserOrders }

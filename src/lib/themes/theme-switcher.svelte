@@ -51,7 +51,7 @@
             <option value={theme} class="capitalize">{theme}</option>
         {/each}
     </select>
-    <button on:click={apply_theme} class="btn btn-primary mt-2"
+    <button on:click={apply_theme} class="btn btn-neutral mt-2"
         >Apply Theme</button
     >
 </div>

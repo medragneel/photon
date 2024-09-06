@@ -1,7 +1,6 @@
 <script lang="ts">
     import { superForm } from "sveltekit-superforms/client";
-        import { toast, Toaster } from "svelte-french-toast";
-
+    import { toast, Toaster } from "svelte-french-toast";
 
     export let data;
     let isEditing = false;
@@ -11,15 +10,15 @@
         errors,
         enhance,
         submitting,
-    } = superForm(data.form,{
-            onResult: ({ result }) => {
+    } = superForm(data.form, {
+        onResult: ({ result }) => {
             console.log("Form submission result:", result);
             if (result.type === "redirect") {
                 toast.success("Profile modified successfully!", {
                     position: "top-center",
                     duration: 5000,
-                })
-                isEditing = false
+                });
+                isEditing = false;
             } else {
                 toast.error("there's a problem", {
                     position: "top-center",
@@ -27,9 +26,7 @@
                 });
             }
         },
-
     });
-
 
     function toggleEdit() {
         isEditing = !isEditing;
@@ -84,7 +81,7 @@
                     placeholder="Example@mail.com"
                 />
             </label>
-            {#if $errors.email}<span class="invalid text-[#f00000]"
+            {#if $errors.email}<span class="invalid text-error"
                     >{$errors.email}</span
                 >{/if}
 
@@ -101,7 +98,7 @@
     </div>
 
     <a
-        href="/orders"
+        href="/settings/user/orders"
         class="block btn btn-neutral font-bold py-4 px-6 rounded-lg text-center transition duration-300 ease-in-out transform hover:scale-105"
     >
         <div class="flex justify-between items-center">
