@@ -35,14 +35,19 @@
 	"dependencies": {
 		"@lucia-auth/adapter-drizzle": "^1.1.0",
 		"@lucia-auth/adapter-postgresql": "^3.1.2",
+		"@threlte/core": "^7.3.1",
+		"@threlte/extras": "^8.11.5",
+		"@types/three": "^0.168.0",
 		"arctic": "^1.9.2",
 		"drizzle-orm": "^0.33.0",
+		"gsap": "^3.12.5",
 		"lucia": "^3.2.0",
 		"oslo": "^1.2.1",
 		"pg": "^8.12.0",
 		"postgres": "^3.4.4",
 		"svelte-french-toast": "^1.2.0",
 		"svelte-select": "^5.8.3",
+		"three": "^0.168.0",
 		"zod": "^3.23.8"
 	}
 }
