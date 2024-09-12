@@ -22,7 +22,9 @@
         </div>
     </main>
 
-    <div class="absolute top-0 right-0 w-1/2 h-full overflow-hidden">
+    <div
+        class="absolute top-0 right-0 w-1/2 h-full overflow-hidden max-[1000px]:hidden max-[600px]:text-center"
+    >
         <Canvas>
             <Scene />
         </Canvas>

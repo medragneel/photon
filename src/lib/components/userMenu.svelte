@@ -12,7 +12,7 @@
             </div>
         </div>
     </summary>
-    <ul class="bg-base-100 rounded-t-none p-2 right-4">
+    <ul class="bg-base-100 rounded-t-none w-52 p-2 right-4">
         {#if user?.isAdmin}
             <li>
                 <a href="/dashboard/users">Dashboard</a>
