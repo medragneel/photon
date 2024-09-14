@@ -1,31 +1,23 @@
-<script>
+<script lang="ts">
     import { onMount } from "svelte";
     import { fade, fly } from "svelte/transition";
+    import { createProdIndex, searchProdIndex } from "$lib/utils/search";
+    import type { Product } from "$lib/utils/search";
 
-    let searchQuery = "";
-    let isSearchOpen = false;
-    let searchResults = [];
-    let searchInput;
+    let search: "loading" | "ready" = "loading";
+    let searchQuery: string = "";
+    let isSearchOpen: boolean = false;
+    let searchResults: Product[] = [];
+    let searchInput: HTMLInputElement;
 
-    // Mock function to simulate search results
-    function performSearch(query) {
-        const mockResults = [
-            { title: "Introduction", url: "/docs/introduction" },
-            { title: "Routing", url: "/docs/routing" },
-            { title: "Loading data", url: "/docs/loading" },
-            { title: "Forms", url: "/docs/forms" },
-        ];
-        return mockResults.filter((result) =>
-            result.title.toLowerCase().includes(query.toLowerCase()),
-        );
-    }
+    onMount(async () => {
+        const prods = await fetch("/search.json").then((res) => res.json());
+        createProdIndex(prods);
+        search = "ready";
+    });
 
-    $: {
-        if (searchQuery.length > 1) {
-            searchResults = performSearch(searchQuery);
-        } else {
-            searchResults = [];
-        }
+    $: if (search === "ready") {
+        searchResults = searchProdIndex(searchQuery);
     }
 
     function openSearch() {
@@ -38,7 +30,7 @@
         searchQuery = "";
     }
 
-    function handleKeydown(event) {
+    function handleKeydown(event: KeyboardEvent) {
         if (event.key === "Escape") {
             closeSearch();
         } else if ((event.ctrlKey || event.metaKey) && event.key === "k") {
@@ -122,17 +114,17 @@
                     </svg>
                 </button>
             </div>
-            {#if searchResults.length > 0}
+            {#if search === "ready"}
                 <div class="max-h-[60vh] overflow-y-auto">
                     <ul class="py-2">
                         {#each searchResults as result}
                             <li>
                                 <a
-                                    href={result.url}
+                                    href={`/shop/${result.prodId}`}
                                     class="block px-4 py-3 text-lg text-gray-700 hover:bg-gray-100"
                                     on:click={closeSearch}
                                 >
-                                    {result.title}
+                                    {result.name}
                                 </a>
                             </li>
                         {/each}

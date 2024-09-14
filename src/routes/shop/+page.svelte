@@ -21,7 +21,7 @@
         class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 place-items-center gap-y-6 mb-6"
     >
         {#each products as p}
-            <div class="card w-96 shadow-xl">
+            <div class="card w-96 max-[600px]:w-80 shadow-xl">
                 <figure>
                     <img src={p.prodImage} alt="Shoes" />
                 </figure>
@@ -66,4 +66,3 @@
 {:else}
     <p class="text-xl font-bold text-center p-6">...no products found</p>
 {/if}
-

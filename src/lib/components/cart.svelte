@@ -14,7 +14,7 @@
 </script>
 
 <div
-    class="fixed top-0 left-0 z-40 h-screen p-4 overflow-y-auto bg-secondary-content hover:bg-secondary-content shadow-2xl w-96"
+    class="fixed top-0 left-0 z-40 h-screen p-4 overflow-y-auto bg-secondary-content hover:bg-secondary-content shadow-2xl w-screen"
     transition:fly={{ x: -300, duration: 300 }}
 >
     <button type="button" on:click={toggleCart} class="absolute top-4 right-4">
@@ -43,7 +43,7 @@
             </div>
             <div class="flex max-[600px]:flex-col gap-4">
                 <a
-                    class="btn {cartItems.length === 0
+                    class="btn btn-wide {cartItems.length === 0
                         ? 'btn-disabled'
                         : ''}  py-3 rounded-lg font-semibold max-[600px]:btn-block"
                     href="/checkout"
@@ -55,7 +55,7 @@
                     Proceed to Checkout
                 </a>
                 <button
-                    class="btn btn-error text-white py-3 max-[600px]:btn-block rounded-lg font-semibold"
+                    class="btn btn-error btn-wide text-white py-3 max-[600px]:btn-block rounded-lg font-semibold"
                     on:click={() => cart.clearCart()}
                 >
                     Clear Cart

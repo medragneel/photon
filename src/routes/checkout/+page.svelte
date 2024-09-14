@@ -49,10 +49,14 @@
 
 {#if cartItems.length > 0}
     <Toaster />
-    <div class="container  mx-auto py-12">
+    <div class="container mx-auto py-12">
         <h1 class="text-3xl font-bold text-center mb-8">Checkout</h1>
 
-        <form method="POST" class="max-w-4xl mx-auto" use:enhance>
+        <form
+            method="POST"
+            class="max-w-4xl mx-auto max-[600px]:px-4"
+            use:enhance
+        >
             <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
                 <div class="form">
                     <div class="form-control w-full mb-4">

@@ -47,7 +47,7 @@
     {#if $errors.password}<span class="invalid text-[#f00000]"
             >{$errors.password}</span
         >{/if}
-    <button class="btn  text-sm btn-wide">Login</button>
+    <button class="btn text-sm btn-wide">Login</button>
     <span class="text-sm text-center">
         if you already don't have an account
         <a href="/register" class="text-accent"> Register</a> here
