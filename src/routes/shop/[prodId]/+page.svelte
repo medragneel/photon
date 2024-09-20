@@ -2,9 +2,13 @@
     export let data;
     const { product } = data;
     import { cart } from "$lib/client/cart";
-
+    import { toast, Toaster } from "svelte-french-toast";
     function addToCart(item) {
         cart.addItem(item);
+        toast.success(`${item?.name} added To the Cart`, {
+            position: "top-center",
+            duration: 5000,
+        });
     }
 </script>
 
@@ -13,6 +17,7 @@
     Go back
 </a>
 
+<Toaster />
 {#if !product}
     <p class="text-xl font-bold text-center p-6 text-error">
         ...Error fetching product
@@ -24,6 +29,7 @@
         >
             <!-- Product Image -->
             <img
+                loading="lazy"
                 src={product?.prodImage}
                 alt={product?.name}
                 class="rounded-lg shadow-lg w-full md:w-1/2 object-cover"
@@ -37,12 +43,12 @@
 
                 <!-- Price and Add to Cart -->
                 <div class="flex justify-between items-center mt-6">
-                    <h2 class="text-2xl font-bold text-primary">
+                    <h2 class="text-2xl font-bold text-neutral">
                         {product?.price} DA
                     </h2>
                     <button
                         on:click={() => addToCart(product)}
-                        class="btn btn-primary flex items-center gap-2"
+                        class="btn btn-neutral flex items-center gap-2"
                     >
                         <i class="bx bx-cart"></i>
                         Add to cart

@@ -1,6 +1,9 @@
 <script lang="ts">
     import { Canvas } from "@threlte/core";
     import Scene from "$lib/components/Scene.svelte";
+
+    export let data;
+    $: console.log(data.products);
 </script>
 
 <div class="min-h-screen">
@@ -29,4 +32,9 @@
             <Scene />
         </Canvas>
     </div>
+</div>
+
+<div class="container mx-auto">
+    <h1>Products</h1>
+    <pre>{JSON.stringify(data.products, null, 2)}</pre>
 </div>

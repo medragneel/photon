@@ -1,25 +1,6 @@
 import { writable } from 'svelte/store';
+import type { ShoppingCart, CartItem } from '$lib/types';
 
-interface CartItem {
-    category: string;
-    createdAt: number;
-    description: string;
-    name: string;
-    price: number;
-    prodId: string;
-    prodImage: string;
-    quantity: number;
-    updatedAt: number;
-}
-
-interface ShoppingCart {
-    subscribe: (run: (value: CartItem[]) => void) => () => void;
-    addItem: (item: CartItem) => void;
-    removeItem: (name: string) => void;
-    updateQuantity: (name: string, quantity: number) => void;
-    clearCart: () => void;
-    getCartCount: () => number;
-}
 
 function createShoppingCart(): ShoppingCart {
     const isBrowser = typeof window !== 'undefined';

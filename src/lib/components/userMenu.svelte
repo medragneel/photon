@@ -15,10 +15,18 @@
     <ul class="bg-base-100 rounded-t-none w-52 p-2 right-4">
         {#if user?.isAdmin}
             <li>
-                <a href="/dashboard/users">Dashboard</a>
+                <a href="/dashboard/users">
+                    <i class="bx bxs-dashboard"></i>
+                    Dashboard
+                </a>
             </li>
         {/if}
-        <li><a href="/settings/profile">Settings</a></li>
+        <li>
+            <a href="/settings/profile">
+                <i class="bx bx-cog"></i>
+                Settings
+            </a>
+        </li>
         <li>
             <form action="/logout" method="POST">
                 <button type="submit" class="text-error">

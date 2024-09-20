@@ -8,7 +8,13 @@
 >
     <div class="flex-1">
         <div class="flex gap-4">
-            <img src={item.prodImage} alt={item.name} width="60" height="60" />
+            <img
+                loading="lazy"
+                src={item.prodImage}
+                alt={item.name}
+                width="60"
+                height="60"
+            />
             <div class="">
                 <h3 class="text-lg font-semibold">
                     {item.name} x {quantity}

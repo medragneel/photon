@@ -2,15 +2,22 @@
     import { cart } from "$lib/client/cart";
     import CartItem from "$lib/components/cartItem.svelte";
     import { fly } from "svelte/transition";
+    import { goto } from "$app/navigation";
 
-    export let toggleCart;
+    export let toggleCart: () => void;
+
+    async function handleCheckout() {
+        toggleCart();
+        if ($cart.length > 0) {
+            await goto("/checkout");
+        }
+    }
 
     $: cartItems = $cart;
     $: total = $cart.reduce(
         (total, item) => total + item.price * item.quantity,
         0,
     );
-    $: console.log(cartItems.length);
 </script>
 
 <div
@@ -42,18 +49,19 @@
                 </span>
             </div>
             <div class="flex max-[600px]:flex-col gap-4">
-                <a
+                <button
+                    type="button"
                     class="btn btn-wide {cartItems.length === 0
                         ? 'btn-disabled'
                         : ''}  py-3 rounded-lg font-semibold max-[600px]:btn-block"
-                    href="/checkout"
+                    on:click={handleCheckout}
                     aria-disabled={cartItems.length === 0}
                     style="pointer-events: {cartItems.length === 0
                         ? 'none'
                         : 'auto'}"
                 >
                     Proceed to Checkout
-                </a>
+                </button>
                 <button
                     class="btn btn-error btn-wide text-white py-3 max-[600px]:btn-block rounded-lg font-semibold"
                     on:click={() => cart.clearCart()}

@@ -1,9 +1,14 @@
 <script>
     export let data;
     import { cart } from "$lib/client/cart";
+    import { toast, Toaster } from "svelte-french-toast";
 
     function addToCart(item) {
         cart.addItem(item);
+        toast.success(`${item?.name} added To the Cart`, {
+            position: "top-center",
+            duration: 5000,
+        });
     }
 
     $: ({ products, total, limit, skip } = data);
@@ -16,6 +21,7 @@
 <h1 class="text-2xl text-bold text-center">Shop</h1>
 <br /><br />
 
+<Toaster />
 {#if products.length > 0}
     <div
         class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 place-items-center gap-y-6 mb-6"
@@ -23,7 +29,7 @@
         {#each products as p}
             <div class="card w-96 max-[600px]:w-80 shadow-xl">
                 <figure>
-                    <img src={p.prodImage} alt="Shoes" />
+                    <img loading="lazy" src={p.prodImage} alt={p.name} />
                 </figure>
                 <div class="card-body">
                     <p class="card-title">

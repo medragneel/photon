@@ -25,13 +25,23 @@
                     />
                 </svg>
             </div>
-            <!-- A11y: noninteractive element cannot have nonnegative tabIndex value -->
             <ul
+                role="menu"
                 tabindex="0"
                 class="menu menu-sm dropdown-content bg-base-100 rounded-box z-[1] mt-3 w-52 p-2 shadow"
             >
-                <li><a href="/">Home</a></li>
-                <li><a href="/shop">Shop</a></li>
+                <li>
+                    <a href="/">
+                        <i class="bx bxs-home"></i>
+                        Home
+                    </a>
+                </li>
+                <li>
+                    <a href="/shop">
+                        <i class="bx bxs-store"></i>
+                        Shop
+                    </a>
+                </li>
             </ul>
         </div>
     </div>

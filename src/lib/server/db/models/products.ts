@@ -1,7 +1,7 @@
 
 import { db } from "$lib/server/db/client";
 import { products } from "$lib/server/db/schema";
-import { count, eq } from "drizzle-orm";
+import { count, eq, sql } from "drizzle-orm";
 
 const fetchAllProducts = async (limit: Number, skip: Number) => {
     return await db.select().from(products).limit(limit).offset(skip);
@@ -30,5 +30,10 @@ const updateProduct = async (id: string, data: Partial<typeof products.$inferIns
 
 }
 
+const getRandomProducts = () => {
 
-export { fetchAllProducts, getTotal, fetchProductById, removeProductById, createNewProduct, updateProduct }
+    return db.select().from(products).orderBy(sql`RANDOM()`).limit(4)
+}
+
+
+export { fetchAllProducts, getTotal, fetchProductById, removeProductById, createNewProduct, updateProduct, getRandomProducts }
