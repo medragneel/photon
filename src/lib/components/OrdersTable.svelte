@@ -1,5 +1,6 @@
 <script>
     import OrderDetailsModal from "$lib/components/OrderDetailsModal.svelte";
+    import { formatDate } from "$lib/utils/date";
     export let orders;
     export let total;
     export let limit;
@@ -44,7 +45,7 @@
                             </select>
                         </form>
                     </td>
-                    <td>{p.createdAt}</td>
+                    <td>{formatDate(p.createdAt)}</td>
                     <td>
                         <button
                             class="btn btn-outline btn-primary"

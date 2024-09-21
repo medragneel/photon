@@ -1,34 +1,46 @@
-import { relations, sql } from "drizzle-orm";
-import { integer, sqliteTable, text } from "drizzle-orm/sqlite-core";
+import { relations } from "drizzle-orm";
+import {
+    pgTable,
+    varchar,
+    text,
+    boolean,
+    timestamp,
+    integer,
+} from "drizzle-orm/pg-core";
 import { generateId } from "lucia";
 
 const timestamps = {
-    createdAt: integer("created_at", { mode: "timestamp" })
+    createdAt: integer("created_at")
         .notNull()
-        .default(sql`(unixepoch())`),
-    updatedAt: integer("updated_at", { mode: "timestamp" })
+        .$defaultFn(() => Math.floor(Date.now() / 1000)),
+    updatedAt: integer("updated_at")
         .notNull()
-        .default(sql`(unixepoch())`)
+        .$defaultFn(() => Math.floor(Date.now() / 1000)),
 };
 
-export const user = sqliteTable("user", {
+export const user = pgTable("user", {
     id: text("id").primaryKey().notNull(),
-    username: text("username", { length: 100 }),
+    username: varchar("username", { length: 100 }),
     email: text("email").notNull().unique(),
-    isAdmin: integer("is_admin", { mode: 'boolean' }).default(false),
+    isAdmin: boolean("is_admin").default(false),
     password: text("password").notNull(),
     ...timestamps,
 });
+
 export const userRelations = relations(user, ({ many }) => ({
     sessions: many(sessionTable)
 }));
 
-export const sessionTable = sqliteTable("session", {
+
+export const sessionTable = pgTable("session", {
     id: text("id").notNull().primaryKey(),
     userId: text("user_id")
         .notNull()
         .references(() => user.id, { onDelete: "cascade" }),
-    expiresAt: integer("expires_at", { mode: "number" }).notNull(),
+    expiresAt: timestamp("expires_at", {
+        withTimezone: true,
+        mode: "date",
+    }).notNull(),
     ...timestamps,
 });
 
@@ -40,8 +52,7 @@ export const sessionRelations = relations(sessionTable, ({ one }) => ({
     })
 }));
 
-
-export const products = sqliteTable("products", {
+export const products = pgTable("products", {
     prodId: text("prod_id").notNull().$defaultFn(() => generateId(20)).primaryKey(),
     name: text("name").notNull(),
     price: integer("price").notNull(),
@@ -52,7 +63,7 @@ export const products = sqliteTable("products", {
     ...timestamps,
 })
 
-export const orders = sqliteTable("orders", {
+export const orders = pgTable("orders", {
     id: text("id").notNull().$defaultFn(() => generateId(20)).primaryKey(),
     userId: text("user_id")
         .notNull()
@@ -60,7 +71,7 @@ export const orders = sqliteTable("orders", {
     total: integer("total").notNull(),
     status: text("status", { enum: ["pending", "shipped", "delivered", "canceled"] }),
     fullName: text('fullName'),
-    wilaya: text('wilaya', { length: 100 }).notNull(),
+    wilaya: varchar('wilaya', { length: 100 }).notNull(),
     adress: text('adress').notNull(),
     phone: text('phone').notNull(),
     ...timestamps,
@@ -68,7 +79,7 @@ export const orders = sqliteTable("orders", {
 });
 
 
-export const orderItems = sqliteTable("order_items", {
+export const orderItems = pgTable("order_items", {
     id: text("id").notNull().$defaultFn(() => generateId(20)).primaryKey(),
     orderId: text("order_id")
         .notNull()
@@ -108,5 +119,4 @@ export interface DatabaseUser {
     email: string;
     password: string;
 }
-
 

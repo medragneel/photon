@@ -1,8 +1,9 @@
 <script>
     import Pagination from "$lib/components/Pagination.svelte";
+    import { formatDate } from "$lib/utils/date";
 
     export let data;
-    const link = "products"
+    const link = "products";
     $: ({ products, total, limit, skip } = data);
     $: pageSize = limit;
     $: totalItems = total[0].count;
@@ -39,8 +40,8 @@
                         <td>{p.name}</td>
                         <td>{p.price}</td>
                         <td>{p.category}</td>
-                        <td>{p.createdAt}</td>
-                        <td>{p.updatedAt}</td>
+                        <td>{formatDate(p.createdAt)}</td>
+                        <td>{formatDate(p.updatedAt)}</td>
                         <td>
                             <div class="flex justify-center gap-2">
                                 <a href="/dashboard/products/{p.prodId}/edit">

@@ -1,6 +1,7 @@
 <script>
     export let data;
     const { users } = data;
+    import { formatDate } from "$lib/utils/date";
 </script>
 
 <div class="overflow-x-auto">
@@ -29,8 +30,8 @@
                     {:else}
                         <td><i class="bx bx-user-x text-xl"></i></td>
                     {/if}
-                    <td>{user?.createdAt}</td>
-                    <td>{user?.updatedAt}</td>
+                    <td>{formatDate(user?.createdAt)}</td>
+                    <td>{formatDate(user?.updatedAt)}</td>
                     <td>
                         <form method="POST">
                             <input type="hidden" name="id" value={user.id} />

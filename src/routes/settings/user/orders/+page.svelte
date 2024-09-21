@@ -1,5 +1,6 @@
 <script>
     import OrderDetailsModal from "$lib/components/OrderDetailsModal.svelte";
+    import {formatDate} from "$lib/utils/date"
     export let data;
     const { orders } = data;
 </script>
@@ -26,7 +27,7 @@ User orders
                     <td>{p.fullName}</td>
                     <td>{p.total.toFixed(2)} DA</td>
                     <td> {p.status}</td>
-                    <td>{p.createdAt}</td>
+                    <td>{formatDate(p.createdAt)}</td>
                     <td>
                         <button
                             class="btn btn-outline btn-primary"

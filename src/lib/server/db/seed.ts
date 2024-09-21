@@ -14,7 +14,7 @@ const main = async () => {
             category: "anime",
             prodImage: "https://placehold.co/600x400",
             description: faker.commerce.productDescription(),
-            userId: 'xmty8rkodj9ra6s'
+            userId: 'efkht573b7nzo16'
 
         });
     }

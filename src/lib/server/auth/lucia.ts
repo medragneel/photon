@@ -1,10 +1,11 @@
 import { Lucia } from "lucia";
-import { DrizzlePostgreSQLAdapter } from "@lucia-auth/adapter-drizzle";
+// import { DrizzlePostgreSQLAdapter } from "@lucia-auth/adapter-drizzle";
+import { DrizzleSQLiteAdapter } from "@lucia-auth/adapter-drizzle";
 import { db } from "../db/client";
 import { sessionTable, user } from "../db/schema";
 import { dev } from "$app/environment";
 
-const adapter = new DrizzlePostgreSQLAdapter(db, sessionTable, user);
+const adapter = new DrizzleSQLiteAdapter(db, sessionTable, user);
 console.log(adapter);
 
 if (!adapter) {
