@@ -14,6 +14,7 @@
         method="POST"
         class="form-control flex items-center gap-4"
         use:enhance
+        enctype="multipart/form-data"
     >
         <label
             class="input input-bordered input-lg flex items-center gap-2 w-full max-w-xs"
@@ -52,12 +53,24 @@
         >
             <i class="bx bx-image-alt"></i>
             <input
-                type="text"
+                type="url"
                 class="grow"
                 name="prodImage"
                 bind:value={formData.prodImage}
                 aria-invalid={$errors.prodImage ? "true" : undefined}
                 placeholder="product image url"
+            />
+        </label>
+        <h1>Or</h1>
+        <label
+            class="input input-bordered input-lg flex items-center gap-2 w-full max-w-xs"
+        >
+            <i class="bx bx-image-alt"></i>
+            <input
+                type="file"
+                class="grow"
+                name="productImage"
+                accept="image/*"
             />
         </label>
         {#if $errors.prodImage}

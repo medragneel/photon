@@ -3,7 +3,6 @@
     import Scene from "$lib/components/Scene.svelte";
 
     export let data;
-    $: console.log(data.products);
 </script>
 
 <div class="min-h-screen">
@@ -33,8 +32,11 @@
         </Canvas>
     </div>
 </div>
-
+{#if data.products}
 <div class="container mx-auto">
     <h1>Products</h1>
     <pre>{JSON.stringify(data.products, null, 2)}</pre>
 </div>
+{:else}
+<p>...Loading</p>
+{/if}
