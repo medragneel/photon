@@ -18,7 +18,7 @@
     $: currentPage = skip / pageSize;
 </script>
 
-<h1 class="text-2xl text-bold text-center">Shop</h1>
+<h1 class="text-2xl font-bold text-center">Shop</h1>
 <br /><br />
 
 <Toaster />

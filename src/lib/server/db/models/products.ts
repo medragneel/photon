@@ -32,7 +32,7 @@ const updateProduct = async (id: string, data: Partial<typeof products.$inferIns
 
 const getRandomProducts = () => {
 
-    return db.select().from(products).orderBy(sql`RANDOM()`).limit(4)
+    return db.select().from(products).orderBy(sql`RANDOM()`).limit(3)
 }
 
 
