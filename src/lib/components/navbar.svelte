@@ -2,8 +2,14 @@
     import CartIcon from "$lib/components/cartIcon.svelte";
     import UserMenu from "$lib/components/userMenu.svelte";
     import SearchBar from "$lib/components/searchBar.svelte";
+    import { theme } from "$lib/themes/themeStore";
 
     export let data;
+    $: isLightTheme =
+        $theme === "light" || $theme === "pastel" || $theme === "lofi";
+    $: logoSrc = isLightTheme
+        ? "/photon_logo_black_ver.svg"
+        : "/photon_logo_white_ver.svg";
 </script>
 
 <div class="navbar bg-base-100">
@@ -46,11 +52,11 @@
         </div>
     </div>
     <div class="navbar-center max-[600px]:hidden">
-        <a class="btn btn-ghost text-xl" href="/">
-            <div class="flex items-center space-x-2 justify-center">
-                <!-- <img src="/logo.svg" alt="logo" class="w-20 h-20 mr-2" /> -->
-                <span> Photon </span>
-            </div>
+        <a
+            class="btn btn-ghost flex items-center justify-center p-2 h-40 w-40"
+            href="/"
+        >
+            <img src={logoSrc} alt="logo" class="h-full w-auto" />
         </a>
     </div>
     <div class="navbar-end">

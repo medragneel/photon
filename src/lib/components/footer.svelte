@@ -1,5 +1,13 @@
 <script lang="ts">
+    import { theme } from "$lib/themes/themeStore";
     const currentYear = new Date().getFullYear();
+
+    $: isLightTheme =
+        $theme === "light" || $theme === "pastel" || $theme === "lofi";
+
+    $: logoSrc = isLightTheme
+        ? "/photon_logo_black_ver.svg"
+        : "/photon_logo_white_ver.svg";
 </script>
 
 <footer class="bg-base-200 text-base-content py-6 px-4 mt-auto">
@@ -7,21 +15,8 @@
         class="container mx-auto flex flex-col md:flex-row justify-between items-center"
     >
         <div class="flex items-center mb-4 md:mb-0">
-            <svg
-                xmlns="http://www.w3.org/2000/svg"
-                width="24"
-                height="24"
-                viewBox="0 0 40 40"
-                class="fill-current mr-2"
-            >
-                <path
-                    d="M20 0c11.046 0 20 8.954 20 20v14a6 6 0 0 1-6 6H21v-8.774c0-2.002.122-4.076 1.172-5.78a10 10 0 0 1 6.904-4.627l.383-.062a.8.8 0 0 0 0-1.514l-.383-.062a10 10 0 0 1-8.257-8.257l-.062-.383a.8.8 0 0 0-1.514 0l-.062.383a9.999 9.999 0 0 1-4.627 6.904C12.85 18.878 10.776 19 8.774 19H.024C.547 8.419 9.29 0 20 0Z"
-                />
-                <path
-                    d="M0 21h8.774c2.002 0 4.076.122 5.78 1.172a10.02 10.02 0 0 1 3.274 3.274C18.878 27.15 19 29.224 19 31.226V40H6a6 6 0 0 1-6-6V21ZM40 2a2 2 0 1 1-4 0 2 2 0 0 1 4 0Z"
-                />
-            </svg>
-            <span class="font-semibold text-lg">Photon</span>
+            <img src={logoSrc} alt="logo" class="w-32 h-32" />
+            <span class="align-middle font-semibold text-lg">Photon</span>
         </div>
         <div class="text-sm mb-4 md:mb-0">
             &copy; {currentYear} Photon. All rights reserved.

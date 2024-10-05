@@ -4,7 +4,7 @@
 </script>
 
 <div
-    class="cart-item bg-secondary-content rounded-lg shadow-md p-4 flex items-center justify-between"
+    class="cart-item rounded-lg shadow-md p-4 flex items-center justify-between"
 >
     <div class="flex-1">
         <div class="flex gap-4">

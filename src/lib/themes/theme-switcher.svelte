@@ -1,39 +1,22 @@
 <script lang="ts">
-    import { themes } from "$lib/themes";
     import { onMount } from "svelte";
+    import { theme } from "$lib/themes/themeStore";
+    import { themes } from "$lib/themes";
 
-    let current_theme = "";
-    let selected_theme = "";
-
-    function setInitialTheme() {
-        if (typeof window !== "undefined") {
-            const stored_theme = window.localStorage.getItem("current-theme");
-            const theme =
-                stored_theme && themes.includes(stored_theme)
-                    ? stored_theme
-                    : "light";
-            document.documentElement.setAttribute("data-theme", theme);
-            return theme;
-        }
-        return "light";
-    }
+    let selected_theme: string;
 
     onMount(() => {
-        const initialTheme = setInitialTheme();
-        current_theme = initialTheme;
-        selected_theme = initialTheme;
+        theme.initialize();
     });
 
-    function apply_theme(theme: string) {
-        if (themes.includes(theme)) {
-            const one_year = 60 * 60 * 24 * 365;
-            window.localStorage.setItem("current-theme", theme);
-            document.cookie = `current-theme=${theme}; max-age=${one_year}; path=/;SameSite=Strict;`;
-            document.documentElement.setAttribute("data-theme", theme);
-            current_theme = theme;
-            selected_theme = theme;
+    function apply_theme(newTheme: string) {
+        if (themes.includes(newTheme)) {
+            theme.set(newTheme);
+            selected_theme = newTheme;
         }
     }
+
+    $: current_theme = $theme;
 </script>
 
 <div class="container mx-auto px-4 py-8">
@@ -73,3 +56,4 @@
         {/each}
     </div>
 </div>
+

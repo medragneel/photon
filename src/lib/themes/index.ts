@@ -2,7 +2,8 @@
 export const themes = [
     'light',
     'dark',
-    'cupcake',
-    'dracula'
+    'dracula',
+    'lofi',
+    'pastel',
 
 ]

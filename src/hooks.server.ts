@@ -36,6 +36,7 @@ const auth: Handle = async ({ event, resolve }) => {
 
 const theme: Handle = async ({ event, resolve }) => {
     const theme = event.cookies.get('current-theme')
+
     if (!theme || !themes.includes(theme)) {
 
         return await resolve(event)
